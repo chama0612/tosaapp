@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>高知市カフェ検索</title>
+  <meta name="description" content="高知市のカフェを、エリア・タグ・検索でかわいく探せるカフェ図鑑。" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -11,14 +12,14 @@
   <header class="header">
     <div class="header__inner">
       <div class="brand">
-        <div class="brand__icon">☕️</div>
+        <div class="brand__icon" aria-hidden="true">☕️</div>
         <div class="brand__text">
           <h1 class="brand__title">高知市カフェ図鑑</h1>
           <p class="brand__sub">個人店多め・お気に入りの一杯を見つけよう</p>
         </div>
       </div>
 
-      <div class="header__chip">
+      <div class="header__chip" aria-live="polite">
         <span id="countText">0</span> 件
       </div>
     </div>
@@ -28,28 +29,28 @@
     <!-- 検索・フィルター -->
     <section class="panel">
       <div class="panel__row">
-        <label class="label">検索</label>
+        <label class="label" for="searchInput">検索</label>
         <input id="searchInput" class="input" type="text"
           placeholder="店名 / エリア / 特徴で検索（例：帯屋町、落ち着く、モーニング）" />
       </div>
 
       <div class="panel__grid">
         <div class="panel__row">
-          <label class="label">エリア</label>
+          <label class="label" for="areaSelect">エリア</label>
           <select id="areaSelect" class="select">
             <option value="">すべて</option>
           </select>
         </div>
 
         <div class="panel__row">
-          <label class="label">こだわり</label>
+          <label class="label" for="tagSelect">こだわり</label>
           <select id="tagSelect" class="select">
             <option value="">すべて</option>
           </select>
         </div>
 
         <div class="panel__row">
-          <label class="label">並び替え</label>
+          <label class="label" for="sortSelect">並び替え</label>
           <select id="sortSelect" class="select">
             <option value="name_asc">名前順（A→Z）</option>
             <option value="name_desc">名前順（Z→A）</option>
@@ -58,9 +59,61 @@
       </div>
 
       <div class="panel__actions">
-        <button id="resetBtn" class="btn btn--ghost">リセット</button>
-        <button id="randomBtn" class="btn">今日のカフェを決める ✨</button>
+        <button id="resetBtn" class="btn btn--ghost" type="button">リセット</button>
+        <button id="randomBtn" class="btn" type="button">今日のカフェを決める ✨</button>
       </div>
+
+      <div class="hint">
+        <span class="hint__pill">#coffee</span>
+        <span class="hint__pill">#tea</span>
+        <span class="hint__pill">#sweets</span>
+        <span class="hint__pill">#retro</span>
+        <span class="hint__pill">#morning</span>
+      </div>
+    </section>
+
+    <!-- ★実在店を増やす入力（ここが最強） -->
+    <section class="adder">
+      <div class="adder__head">
+        <h2 class="adder__title">実在店を追加（架空ゼロ）</h2>
+        <p class="adder__sub">店名を1行ずつ貼るだけで、GoogleMapリンク付きで自動追加できます。</p>
+      </div>
+
+      <div class="adder__grid">
+        <div class="panel__row">
+          <label class="label" for="bulkNames">店名リスト</label>
+          <textarea id="bulkNames" class="textarea" rows="6"
+            placeholder="例：&#10;カワクボコーヒー&#10;喫茶 デポー&#10;紅茶と月の香り Tea café Lune"></textarea>
+        </div>
+
+        <div class="panel__row">
+          <label class="label" for="bulkArea">エリア</label>
+          <input id="bulkArea" class="input" type="text" placeholder="例：帯屋町 / 高知駅周辺 / はりまや橋 など" />
+        </div>
+
+        <div class="panel__row">
+          <label class="label">タグ</label>
+          <div class="checks">
+            <label class="check"><input type="checkbox" value="coffee"> coffee</label>
+            <label class="check"><input type="checkbox" value="tea"> tea</label>
+            <label class="check"><input type="checkbox" value="sweets"> sweets</label>
+            <label class="check"><input type="checkbox" value="retro"> retro</label>
+            <label class="check"><input type="checkbox" value="morning"> morning</label>
+          </div>
+        </div>
+
+        <div class="panel__row">
+          <label class="label" for="bulkDesc">メモ</label>
+          <input id="bulkDesc" class="input" type="text" placeholder="例：落ち着く、プリンが有名、作業しやすい など（任意）" />
+        </div>
+      </div>
+
+      <div class="panel__actions">
+        <button id="addBulkBtn" class="btn" type="button">この条件で追加する 💗</button>
+        <button id="exportBtn" class="btn btn--ghost" type="button">JS用データを書き出し</button>
+      </div>
+
+      <pre class="export" id="exportBox" hidden></pre>
     </section>
 
     <!-- カード一覧 -->
@@ -69,11 +122,9 @@
     <!-- 空表示 -->
     <section class="empty" id="emptyState" hidden>
       <div class="empty__card">
-        <div class="empty__icon">🥲</div>
+        <div class="empty__icon" aria-hidden="true">🥲</div>
         <h2 class="empty__title">見つからなかった…</h2>
-        <p class="empty__text">
-          検索条件を少しゆるめてみてね。
-        </p>
+        <p class="empty__text">検索条件を少しゆるめてみてね。</p>
       </div>
     </section>
   </main>
