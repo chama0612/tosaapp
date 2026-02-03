@@ -1,97 +1,60 @@
-body {
-  margin: 0;
-  font-family: "Helvetica Neue", sans-serif;
-  background: #f5f3ef;
-  color: #333;
+const cafes = [
+  { name: "Mephistopheles", tags: ["coffee","quiet","stylish"] },
+  { name: "Cocochi Coffee", tags: ["coffee","wifi"] },
+  { name: "botanical cafe Konoha", tags: ["stylish","quiet","sweets"] },
+  { name: "GRAYGE COFFEE ROASTER", tags: ["coffee","stylish"] },
+  { name: "Hidamarikōji Tosa-cha Cafe", tags: ["quiet","stylish","sweets"] },
+  { name: "Coffee House Histoire", tags: ["coffee","quiet"] },
+  { name: "Cafe de LA PAIX", tags: ["coffee","stylish"] },
+  { name: "Spoon", tags: ["stylish","sweets","lunch"] },
+  { name: "cafe&gallery TOSACOYA", tags: ["quiet","stylish"] },
+  { name: "Kissaco", tags: ["coffee","quiet"] },
+  { name: "NICO CAFE", tags: ["stylish","sweets"] },
+  { name: "ecocca", tags: ["stylish","coffee","wifi"] },
+  { name: "Garden of Anne", tags: ["quiet","stylish","sweets"] },
+  { name: "を菓子と。Coffee and Bake", tags: ["sweets","coffee"] },
+  { name: "Pasta Cafe Hachinomori", tags: ["lunch","stylish"] },
+  { name: "DEWATA BALI CAFE", tags: ["lively","lunch"] },
+  { name: "Jazz & Coffee Peat", tags: ["coffee","quiet"] },
+  { name: "喫茶 ブイヤベース", tags: ["quiet","coffee"] },
+  { name: "喫茶まるきゅう", tags: ["quiet","lunch"] },
+  { name: "烏兎匆々", tags: ["stylish","quiet"] },
+  { name: "marjametsä", tags: ["stylish","sweets"] },
+  { name: "タルトデトルタ", tags: ["sweets","stylish"] },
+  { name: "Komeda’s Coffee 高知", tags: ["coffee","wifi","lunch"] },
+  { name: "Shimanto Ochakuri Cafe", tags: ["sweets","stylish"] },
+  { name: "Ikegawa Chaen Cafe", tags: ["quiet","sweets"] },
+  { name: "Depot Kyocho Ten", tags: ["coffee","lively"] },
+  { name: "Cerberus coffee", tags: ["coffee","stylish"] },
+  { name: "kawakubo coffee", tags: ["coffee","quiet"] },
+  { name: "Yashinomi Cafe", tags: ["quiet","stylish"] },
+  { name: "Coffee Stand 88", tags: ["coffee","lively"] }
+];
+
+function filterCafes() {
+  const checked = [...document.querySelectorAll("input:checked")].map(i => i.value);
+  const list = document.getElementById("cafeList");
+  list.innerHTML = "";
+
+  const results = cafes.filter(cafe =>
+    checked.every(tag => cafe.tags.includes(tag))
+  );
+
+  if (results.length === 0) {
+    list.innerHTML = "<p>条件に合うカフェが見つかりませんでした。</p>";
+    return;
+  }
+
+  results.forEach(cafe => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
+      <h3>${cafe.name}</h3>
+      <div class="tags">${cafe.tags.join(" / ")}</div>
+      <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(cafe.name + " 高知市")}" target="_blank">
+        Google Mapで見る
+      </a>
+    `;
+    list.appendChild(div);
+  });
 }
-
-header {
-  background: linear-gradient(120deg, #5c4033, #8b6b4f);
-  color: white;
-  text-align: center;
-  padding: 40px 20px;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 2.4em;
-}
-
-header p {
-  opacity: 0.9;
-}
-
-.survey, .results {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 0 20px;
-}
-
-.group {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-}
-
-.group p {
-  font-weight: bold;
-}
-
-label {
-  margin-right: 15px;
-}
-
-button {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 30px;
-  background: #5c4033;
-  color: white;
-  font-size: 1em;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #4a3328;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-}
-
-.card {
-  background: white;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-}
-
-.card h3 {
-  margin-top: 0;
-}
-
-.tags {
-  font-size: 0.85em;
-  opacity: 0.7;
-  margin-bottom: 10px;
-}
-
-.card a {
-  display: block;
-  text-align: center;
-  padding: 10px;
-  background: #8b6b4f;
-  color: white;
-  border-radius: 20px;
-  text-decoration: none;
-}
-
-.card a:hover {
-  background: #73563f;
-}
-
-
