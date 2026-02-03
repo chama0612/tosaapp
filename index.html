@@ -1,113 +1,101 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kochi Cafe Finder</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <header class="header">
-    <div class="header__inner">
-      <div>
-        <h1 class="title">Kochi Cafe Finder</h1>
-        <p class="subtitle">好みを選ぶだけで、高知市のカフェを提案 ☕️</p>
-      </div>
+  <div class="bg-blur"></div>
 
-      <button id="resetBtn" class="btn btn--ghost" type="button" aria-label="リセット">
-        リセット
-      </button>
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="logo">☕︎</div>
+        <div class="brand-text">
+          <h1>Kochi Cafe Finder</h1>
+          <p>アンケートで、あなた好みの高知市カフェを提案します。</p>
+        </div>
+      </div>
+      <div class="badge">Kochi City</div>
     </div>
   </header>
 
   <main class="container">
-    <!-- Filters -->
     <section class="panel">
-      <div class="panel__head">
-        <h2 class="panel__title">条件を選択</h2>
-        <span id="matchCount" class="badge">0件</span>
+      <div class="panel-head">
+        <h2>あなたの好み</h2>
+        <p>チェックして「探す」を押すだけ。</p>
       </div>
 
-      <div class="grid">
-        <label class="field">
-          <span class="field__label">キーワード検索</span>
-          <input id="keyword" class="input" type="search" placeholder="例：帯屋町 / 紅茶 / レトロ" />
+      <div class="form-grid">
+        <label class="chip">
+          <input id="qCoffee" type="checkbox" />
+          <span>コーヒー派</span>
         </label>
 
-        <label class="field">
-          <span class="field__label">雰囲気</span>
-          <select id="mood" class="select">
-            <option value="">指定なし</option>
-            <option value="quiet">静か</option>
-            <option value="stylish">おしゃれ</option>
-            <option value="retro">レトロ</option>
-            <option value="casual">カジュアル</option>
-          </select>
+        <label class="chip">
+          <input id="qTea" type="checkbox" />
+          <span>紅茶派</span>
         </label>
 
-        <label class="field">
-          <span class="field__label">目的</span>
-          <select id="purpose" class="select">
-            <option value="">指定なし</option>
-            <option value="work">作業/勉強</option>
-            <option value="sweets">スイーツ</option>
-            <option value="lunch">ランチ</option>
-            <option value="coffee">コーヒー重視</option>
-            <option value="tea">紅茶</option>
-          </select>
+        <label class="chip">
+          <input id="qQuiet" type="checkbox" />
+          <span>静かめ</span>
         </label>
 
-        <label class="field">
-          <span class="field__label">席/設備</span>
-          <select id="facility" class="select">
-            <option value="">指定なし</option>
-            <option value="wifi">Wi-Fi</option>
-            <option value="outlet">コンセント</option>
-            <option value="parking">駐車場</option>
-            <option value="takeout">テイクアウト</option>
-          </select>
+        <label class="chip">
+          <input id="qStudy" type="checkbox" />
+          <span>作業/勉強向き</span>
         </label>
-      </div>
 
-      <div class="chips" aria-label="人気タグ">
-        <button class="chip" data-chip="quiet">静か</button>
-        <button class="chip" data-chip="stylish">おしゃれ</button>
-        <button class="chip" data-chip="retro">レトロ</button>
-        <button class="chip" data-chip="wifi">Wi-Fi</button>
-        <button class="chip" data-chip="outlet">コンセント</button>
-        <button class="chip" data-chip="sweets">スイーツ</button>
-        <button class="chip" data-chip="tea">紅茶</button>
+        <label class="chip">
+          <input id="qSweets" type="checkbox" />
+          <span>スイーツ</span>
+        </label>
+
+        <label class="chip">
+          <input id="qLunch" type="checkbox" />
+          <span>ランチ</span>
+        </label>
+
+        <label class="chip">
+          <input id="qAesthetic" type="checkbox" />
+          <span>映え</span>
+        </label>
+
+        <div class="keyword">
+          <label for="qKeyword">キーワード（店名の一部でもOK）</label>
+          <input id="qKeyword" type="text" placeholder="例：Lune / 帯屋町 / コーヒー…" />
+        </div>
+
+        <button id="searchBtn" class="search-btn" type="button">
+          探す
+          <span class="arrow">→</span>
+        </button>
       </div>
     </section>
 
-    <!-- Results -->
-    <section class="results">
-      <div class="results__head">
-        <h2 class="results__title">おすすめ</h2>
-
-        <label class="field field--inline">
-          <span class="field__label">並び替え</span>
-          <select id="sort" class="select">
-            <option value="recommended">おすすめ</option>
-            <option value="name">名前順</option>
-          </select>
-        </label>
+    <section class="panel results-panel">
+      <div class="panel-head">
+        <h2>おすすめカフェ</h2>
+        <p>気になるお店はGoogleMapへ。</p>
       </div>
 
-      <div id="cards" class="cards" aria-live="polite"></div>
-
-      <div id="empty" class="empty hidden">
-        <p class="empty__title">条件に合うカフェが見つかりませんでした🥲</p>
-        <p class="empty__desc">条件をゆるめるか、リセットして再検索してみてください。</p>
+      <div id="results" class="results-grid">
+        <!-- JSでカードが挿入されます -->
       </div>
     </section>
+
+    <footer class="footer">
+      <p>
+        ※表示はアンケートに基づくおすすめです。営業状況はGoogleMapでご確認ください。
+      </p>
+    </footer>
   </main>
 
-  <footer class="footer">
-    <p>※ Googleマップ検索リンクに飛びます（店舗情報は変わる可能性があります）</p>
-  </footer>
-
-  <script src="app.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
