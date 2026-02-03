@@ -1,6 +1,7 @@
 /* =========================
    高知市カフェ図鑑 script.js
-   HTML/CSS（あなたのやつ）に対応版
+   タグ選択で絞り込み（検索欄なし）
+   cafes配列はそのまま使用
    ========================= */
 
 const cafes = [
@@ -12,8 +13,6 @@ const cafes = [
     tags: ["tea", "sweets"],
     map: "https://www.google.com/maps/search/?api=1&query=紅茶と月の香り+Tea+café+Lune+高知市"
   },
-
-  // --- コーヒー/喫茶・レトロ ---
   {
     name: "メフィストフェレス",
     area: "はりまや橋周辺",
@@ -35,8 +34,6 @@ const cafes = [
     tags: ["coffee", "morning"],
     map: "https://www.google.com/maps/search/?api=1&query=珈琲屋らんぷ+高知店"
   },
-
-  // --- スイーツ/ジェラート ---
   {
     name: "岩松冷菓",
     area: "高知市",
@@ -51,8 +48,6 @@ const cafes = [
     tags: ["sweets"],
     map: "https://www.google.com/maps/search/?api=1&query=高知アイスカフェ+よさこい咲都"
   },
-
-  // --- ここから実在カフェ追加（個人店多め） ---
   {
     name: "マンテンノホシ 桂浜店",
     area: "桂浜",
@@ -74,8 +69,6 @@ const cafes = [
     tags: ["sweets", "tea"],
     map: "https://www.google.com/maps/search/?api=1&query=ポームダムール+御座店"
   },
-
-  // --- チェーン（適度に） ---
   {
     name: "スターバックスコーヒー 高知 蔦屋書店",
     area: "高知市",
@@ -97,8 +90,6 @@ const cafes = [
     tags: ["coffee", "sweets", "morning"],
     map: "https://www.google.com/maps/search/?api=1&query=星乃珈琲店+高知南久保店"
   },
-
-  // --- さらに追加（実在） ---
   {
     name: "草庵",
     area: "高知市",
@@ -148,9 +139,6 @@ const cafes = [
     tags: ["retro", "coffee"],
     map: "https://www.google.com/maps/search/?api=1&query=クメヤ+喫茶+高知市"
   },
-
-  // ここから先：あなたが「もっと増やして！」と言っていたので
-  // “JSとして動くこと”を最優先に、追加しやすい形式で枠を用意
 ];
 
 // ========= DOM =========
@@ -158,13 +146,9 @@ const cafeGrid = document.getElementById("cafeGrid");
 const emptyState = document.getElementById("emptyState");
 const countText = document.getElementById("countText");
 
-const searchInput = document.getElementById("searchInput");
-const areaSelect = document.getElementById("areaSelect");
-const tagSelect = document.getElementById("tagSelect");
-const sortSelect = document.getElementById("sortSelect");
-
+const tagList = document.getElementById("tagList");
 const resetBtn = document.getElementById("resetBtn");
-const randomBtn = document.getElementById("randomBtn");
+const activeTagsText = document.getElementById("activeTags");
 
 // ========= helpers =========
 const tagLabel = {
@@ -175,6 +159,9 @@ const tagLabel = {
   morning: "モーニング",
 };
 
+const TAGS = ["coffee", "tea", "sweets", "retro", "morning"];
+const active = new Set();
+
 function escapeHtml(str) {
   return String(str)
     .replaceAll("&", "&amp;")
@@ -184,40 +171,39 @@ function escapeHtml(str) {
     .replaceAll("'", "&#039;");
 }
 
-function unique(arr) {
-  return [...new Set(arr)];
+// ========= render tags =========
+function renderTags() {
+  tagList.innerHTML = "";
+
+  TAGS.forEach(t => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "tagBtn";
+    btn.textContent = tagLabel[t] ?? t;
+
+    btn.addEventListener("click", () => {
+      if (active.has(t)) {
+        active.delete(t);
+        btn.classList.remove("is-active");
+      } else {
+        active.add(t);
+        btn.classList.add("is-active");
+      }
+      applyFilters();
+    });
+
+    tagList.appendChild(btn);
+  });
 }
 
-// ========= init selects =========
-function initFilters() {
-  const areas = unique(cafes.map(c => c.area).filter(Boolean)).sort((a,b)=>a.localeCompare(b,"ja"));
-  areas.forEach(a => {
-    const opt = document.createElement("option");
-    opt.value = a;
-    opt.textContent = a;
-    areaSelect.appendChild(opt);
-  });
-
-  const tags = ["coffee", "tea", "sweets", "retro", "morning"];
-  tags.forEach(t => {
-    const opt = document.createElement("option");
-    opt.value = t;
-    opt.textContent = tagLabel[t] ?? t;
-    tagSelect.appendChild(opt);
-  });
-}
-
-// ========= render =========
+// ========= render cafes =========
 function render(list) {
   cafeGrid.innerHTML = "";
 
-  if (!list.length) {
-    emptyState.hidden = false;
-  } else {
-    emptyState.hidden = true;
-  }
-
+  emptyState.hidden = list.length !== 0;
   countText.textContent = list.length;
+
+  if (!list.length) return;
 
   list.forEach(cafe => {
     const card = document.createElement("article");
@@ -242,7 +228,8 @@ function render(list) {
       <div class="card__body">
         ${escapeHtml(cafe.desc || "")}
         <div class="card__tags">${tagsHtml}</div>
-        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+
+        <div class="card__actions">
           <a class="btn btn--ghost" href="${escapeHtml(cafe.map)}" target="_blank" rel="noopener">
             GoogleMapで見る
           </a>
@@ -256,86 +243,42 @@ function render(list) {
 
 // ========= filtering =========
 function applyFilters() {
-  const q = (searchInput.value || "").trim().toLowerCase();
-  const area = areaSelect.value;
-  const tag = tagSelect.value;
-  const sort = sortSelect.value;
-
   let list = cafes.slice();
 
-  if (area) {
-    list = list.filter(c => c.area === area);
-  }
-  if (tag) {
-    list = list.filter(c => (c.tags || []).includes(tag));
-  }
-  if (q) {
-    list = list.filter(c => {
-      const hay = [
-        c.name,
-        c.area,
-        c.desc,
-        ...(c.tags || []).map(t => tagLabel[t] ?? t),
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-      return hay.includes(q);
+  // activeが空なら全部表示
+  if (active.size > 0) {
+    // AND条件：選択したタグを全て含むお店のみ
+    list = list.filter(cafe => {
+      const t = cafe.tags || [];
+      return [...active].every(a => t.includes(a));
     });
   }
 
-  if (sort === "name_asc") {
-    list.sort((a,b)=>a.name.localeCompare(b.name,"ja"));
-  } else if (sort === "name_desc") {
-    list.sort((a,b)=>b.name.localeCompare(a.name,"ja"));
+  // コーヒー多め感：coffeeタグがある店を上に（並び替え）
+  list.sort((a, b) => {
+    const ac = a.tags?.includes("coffee") ? 1 : 0;
+    const bc = b.tags?.includes("coffee") ? 1 : 0;
+    return bc - ac;
+  });
+
+  // ステータス
+  if (activeTagsText) {
+    activeTagsText.textContent =
+      active.size === 0
+        ? "選択中：なし"
+        : "選択中：" + [...active].map(t => tagLabel[t] ?? t).join(" / ");
   }
 
   render(list);
 }
 
 // ========= events =========
-searchInput.addEventListener("input", applyFilters);
-areaSelect.addEventListener("change", applyFilters);
-tagSelect.addEventListener("change", applyFilters);
-sortSelect.addEventListener("change", applyFilters);
-
 resetBtn.addEventListener("click", () => {
-  searchInput.value = "";
-  areaSelect.value = "";
-  tagSelect.value = "";
-  sortSelect.value = "name_asc";
+  active.clear();
+  document.querySelectorAll(".tagBtn").forEach(b => b.classList.remove("is-active"));
   applyFilters();
 });
 
-randomBtn.addEventListener("click", () => {
-  const current = document.querySelectorAll(".card");
-  const list = current.length ? current : document.querySelectorAll(".card");
-  const filtered = (() => {
-    // 現在の条件で抽選したいので applyFilters() 後の表示内容から選ぶ
-    const q = (searchInput.value || "").trim().toLowerCase();
-    const area = areaSelect.value;
-    const tag = tagSelect.value;
-
-    let l = cafes.slice();
-    if (area) l = l.filter(c => c.area === area);
-    if (tag) l = l.filter(c => (c.tags || []).includes(tag));
-    if (q) {
-      l = l.filter(c => {
-        const hay = [c.name, c.area, c.desc, ...(c.tags || [])].join(" ").toLowerCase();
-        return hay.includes(q);
-      });
-    }
-    return l;
-  })();
-
-  if (!filtered.length) return;
-
-  const pick = filtered[Math.floor(Math.random() * filtered.length)];
-  alert(`今日のカフェは…\n\n☕️ ${pick.name}\n📍 ${pick.area}\n\nGoogleMapを開きます！`);
-
-  window.open(pick.map, "_blank", "noopener");
-});
-
 // ========= start =========
-initFilters();
+renderTags();
 applyFilters();
