@@ -1,1 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Kochi Cafe Finder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Kochi Cafe Finder</h1>
+  <p>あなたの好みで、高知市のカフェを探す</p>
+</header>
+
+<section class="survey">
+  <h2>☕ 好みを選択</h2>
+
+  <div class="group">
+    <p>雰囲気</p>
+    <label><input type="checkbox" value="quiet"> 静か</label>
+    <label><input type="checkbox" value="stylish"> おしゃれ</label>
+    <label><input type="checkbox" value="lively"> にぎやか</label>
+  </div>
+
+  <div class="group">
+    <p>目的</p>
+    <label><input type="checkbox" value="coffee"> コーヒー重視</label>
+    <label><input type="checkbox" value="sweets"> スイーツ</label>
+    <label><input type="checkbox" value="lunch"> ランチ</label>
+  </div>
+
+  <div class="group">
+    <p>設備</p>
+    <label><input type="checkbox" value="wifi"> Wi-Fiあり</label>
+  </div>
+
+  <button onclick="filterCafes()">この条件で探す</button>
+</section>
+
+<section class="results">
+  <h2>📍 おすすめカフェ</h2>
+  <div id="cafeList" class="cards"></div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
 # tosaapp
