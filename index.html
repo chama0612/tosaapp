@@ -1,48 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kochi Cafe Finder</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+  <header class="header">
+    <div class="header__inner">
+      <div>
+        <h1 class="title">Kochi Cafe Finder</h1>
+        <p class="subtitle">好みを選ぶだけで、高知市のカフェを提案 ☕️</p>
+      </div>
 
-<header>
-  <h1>Kochi Cafe Finder</h1>
-  <p>あなたの好みで、高知市のカフェを探す</p>
-</header>
+      <button id="resetBtn" class="btn btn--ghost" type="button" aria-label="リセット">
+        リセット
+      </button>
+    </div>
+  </header>
 
-<section class="survey">
-  <h2>☕ 好みを選択</h2>
+  <main class="container">
+    <!-- Filters -->
+    <section class="panel">
+      <div class="panel__head">
+        <h2 class="panel__title">条件を選択</h2>
+        <span id="matchCount" class="badge">0件</span>
+      </div>
 
-  <div class="group">
-    <p>雰囲気</p>
-    <label><input type="checkbox" value="quiet"> 静か</label>
-    <label><input type="checkbox" value="stylish"> おしゃれ</label>
-    <label><input type="checkbox" value="lively"> にぎやか</label>
-  </div>
+      <div class="grid">
+        <label class="field">
+          <span class="field__label">キーワード検索</span>
+          <input id="keyword" class="input" type="search" placeholder="例：帯屋町 / 紅茶 / レトロ" />
+        </label>
 
-  <div class="group">
-    <p>目的</p>
-    <label><input type="checkbox" value="coffee"> コーヒー重視</label>
-    <label><input type="checkbox" value="sweets"> スイーツ</label>
-    <label><input type="checkbox" value="lunch"> ランチ</label>
-  </div>
+        <label class="field">
+          <span class="field__label">雰囲気</span>
+          <select id="mood" class="select">
+            <option value="">指定なし</option>
+            <option value="quiet">静か</option>
+            <option value="stylish">おしゃれ</option>
+            <option value="retro">レトロ</option>
+            <option value="casual">カジュアル</option>
+          </select>
+        </label>
 
-  <div class="group">
-    <p>設備</p>
-    <label><input type="checkbox" value="wifi"> Wi-Fiあり</label>
-  </div>
+        <label class="field">
+          <span class="field__label">目的</span>
+          <select id="purpose" class="select">
+            <option value="">指定なし</option>
+            <option value="work">作業/勉強</option>
+            <option value="sweets">スイーツ</option>
+            <option value="lunch">ランチ</option>
+            <option value="coffee">コーヒー重視</option>
+            <option value="tea">紅茶</option>
+          </select>
+        </label>
 
-  <button onclick="filterCafes()">この条件で探す</button>
-</section>
+        <label class="field">
+          <span class="field__label">席/設備</span>
+          <select id="facility" class="select">
+            <option value="">指定なし</option>
+            <option value="wifi">Wi-Fi</option>
+            <option value="outlet">コンセント</option>
+            <option value="parking">駐車場</option>
+            <option value="takeout">テイクアウト</option>
+          </select>
+        </label>
+      </div>
 
-<section class="results">
-  <h2>📍 おすすめカフェ</h2>
-  <div id="cafeList" class="cards"></div>
-</section>
+      <div class="chips" aria-label="人気タグ">
+        <button class="chip" data-chip="quiet">静か</button>
+        <button class="chip" data-chip="stylish">おしゃれ</button>
+        <button class="chip" data-chip="retro">レトロ</button>
+        <button class="chip" data-chip="wifi">Wi-Fi</button>
+        <button class="chip" data-chip="outlet">コンセント</button>
+        <button class="chip" data-chip="sweets">スイーツ</button>
+        <button class="chip" data-chip="tea">紅茶</button>
+      </div>
+    </section>
 
-<script src="script.js"></script>
+    <!-- Results -->
+    <section class="results">
+      <div class="results__head">
+        <h2 class="results__title">おすすめ</h2>
+
+        <label class="field field--inline">
+          <span class="field__label">並び替え</span>
+          <select id="sort" class="select">
+            <option value="recommended">おすすめ</option>
+            <option value="name">名前順</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="cards" class="cards" aria-live="polite"></div>
+
+      <div id="empty" class="empty hidden">
+        <p class="empty__title">条件に合うカフェが見つかりませんでした🥲</p>
+        <p class="empty__desc">条件をゆるめるか、リセットして再検索してみてください。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>※ Googleマップ検索リンクに飛びます（店舗情報は変わる可能性があります）</p>
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>
-# tosaapp
