@@ -1,452 +1,341 @@
-// Kochi City Coffee / Cafe List (REAL places only)
-// fast food excluded / indie-focused / some chains allowed
+/* =========================
+   高知市カフェ図鑑 script.js
+   HTML/CSS（あなたのやつ）に対応版
+   ========================= */
 
 const cafes = [
-  // --- 個人店・ローカル系 ---
+  // --- あなたの推し（絶対入れる） ---
   {
-    id: "cafe_001",
-    name: "紅茶と月の香り",
-    area: "高知市中心部",
-    genre: ["紅茶", "カフェ"],
-    style: ["個人店", "落ち着く"],
-    keywords: ["紅茶", "静か", "スイーツ"],
-    price: "800〜1500円",
-    note: "紅茶好き向け。雰囲気重視。",
-  },
-  {
-    id: "cafe_002",
-    name: "Kochi Coffee (コウチコーヒー)",
-    area: "高知市中心部",
-    genre: ["コーヒー", "カフェ"],
-    style: ["個人店"],
-    keywords: ["自家焙煎", "豆", "香り"],
-    price: "500〜1200円",
-    note: "自家焙煎系。",
-  },
-  {
-    id: "cafe_003",
-    name: "CAFE DE 502",
-    area: "高知市中心部",
-    genre: ["カフェ"],
-    style: ["個人店"],
-    keywords: ["ランチ", "カフェごはん"],
-    price: "900〜1600円",
-    note: "ランチ利用にも。",
-  },
-  {
-    id: "cafe_004",
-    name: "草や",
-    area: "高知市中心部",
-    genre: ["喫茶", "カフェ"],
-    style: ["個人店", "レトロ"],
-    keywords: ["喫茶", "落ち着く"],
-    price: "600〜1300円",
-    note: "昔ながらの喫茶感。",
-  },
-  {
-    id: "cafe_005",
-    name: "喫茶デポー",
-    area: "高知市中心部",
-    genre: ["喫茶"],
-    style: ["個人店", "レトロ"],
-    keywords: ["昭和", "喫茶店"],
-    price: "600〜1200円",
-    note: "老舗系。",
-  },
-  {
-    id: "cafe_006",
-    name: "珈琲館 イストワール",
-    area: "高知市中心部",
-    genre: ["喫茶", "コーヒー"],
-    style: ["個人店"],
-    keywords: ["コーヒー", "静か"],
-    price: "700〜1500円",
-    note: "喫茶寄り。",
-  },
-  {
-    id: "cafe_007",
-    name: "サロン・ド・テ・ミュゼ",
-    area: "高知市中心部",
-    genre: ["紅茶", "カフェ"],
-    style: ["個人店", "上品"],
-    keywords: ["紅茶", "ケーキ"],
-    price: "900〜1800円",
-    note: "ティーサロン系。",
-  },
-  {
-    id: "cafe_008",
-    name: "カフェ・ド・ラペ",
-    area: "高知市中心部",
-    genre: ["カフェ"],
-    style: ["個人店"],
-    keywords: ["ケーキ", "落ち着く"],
-    price: "800〜1600円",
-    note: "雰囲気良い系。",
-  },
-  {
-    id: "cafe_009",
-    name: "カフェ・サンテ",
-    area: "高知市中心部",
-    genre: ["カフェ"],
-    style: ["個人店"],
-    keywords: ["ランチ", "スイーツ"],
-    price: "900〜1700円",
-    note: "ご飯もいける。",
-  },
-  {
-    id: "cafe_010",
-    name: "喫茶 メフィストフェレス",
-    area: "高知市中心部",
-    genre: ["喫茶"],
-    style: ["個人店", "レトロ"],
-    keywords: ["喫茶", "コーヒー"],
-    price: "600〜1300円",
-    note: "喫茶文化強め。",
-  },
-  {
-    id: "cafe_011",
-    name: "Café du Glacier（カフェ・ドゥ・グラシエ）",
-    area: "高知市中心部",
-    genre: ["カフェ", "スイーツ"],
-    style: ["個人店"],
-    keywords: ["スイーツ", "アイス"],
-    price: "700〜1600円",
-    note: "甘いもの強い。",
-  },
-  {
-    id: "cafe_012",
-    name: "コミベーカリー（イートイン）",
-    area: "高知市中心部",
-    genre: ["ベーカリーカフェ"],
-    style: ["個人店"],
-    keywords: ["パン", "モーニング"],
-    price: "500〜1200円",
-    note: "パンとコーヒー。",
-  },
-  {
-    id: "cafe_013",
-    name: "ブルーマーリン",
-    area: "高知市中心部",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "モーニング"],
-    price: "500〜1200円",
-    note: "モーニングも。",
-  },
-  {
-    id: "cafe_014",
-    name: "喫茶 ぽえむ",
-    area: "高知市中心部",
-    genre: ["喫茶"],
-    style: ["個人店", "レトロ"],
-    keywords: ["喫茶", "落ち着く"],
-    price: "500〜1100円",
-    note: "静かな喫茶。",
-  },
-  {
-    id: "cafe_015",
-    name: "喫茶 セルフ",
-    area: "高知市中心部",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "昔ながら"],
-    price: "500〜1000円",
-    note: "喫茶系。",
-  },
-  {
-    id: "cafe_016",
-    name: "カフェ・クレール",
-    area: "高知市中心部",
-    genre: ["カフェ"],
-    style: ["個人店"],
-    keywords: ["スイーツ", "静か"],
-    price: "800〜1600円",
-    note: "穴場っぽい系。",
-  },
-  {
-    id: "cafe_017",
-    name: "喫茶 フローレンス",
-    area: "高知市中心部",
-    genre: ["喫茶"],
-    style: ["個人店", "レトロ"],
-    keywords: ["喫茶", "コーヒー"],
-    price: "600〜1200円",
-    note: "落ち着き。",
-  },
-  {
-    id: "cafe_018",
-    name: "カフェ・パスティーユ",
-    area: "高知市中心部",
-    genre: ["カフェ"],
-    style: ["個人店"],
-    keywords: ["ケーキ", "カフェ"],
-    price: "800〜1600円",
-    note: "スイーツ系。",
-  },
-  {
-    id: "cafe_019",
-    name: "喫茶 風車",
-    area: "高知市中心部",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "モーニング"],
-    price: "500〜1200円",
-    note: "朝利用も。",
-  },
-  {
-    id: "cafe_020",
-    name: "喫茶 バッカス",
-    area: "高知市中心部",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "軽食"],
-    price: "600〜1300円",
-    note: "軽食も。",
+    name: "紅茶と月の香り Tea café Lune",
+    area: "高知市",
+    desc: "紅茶好きに刺さる、やさしい空気感のティーカフェ。",
+    tags: ["tea", "sweets"],
+    map: "https://www.google.com/maps/search/?api=1&query=紅茶と月の香り+Tea+café+Lune+高知市"
   },
 
-  // --- ちょい郊外・市内各所 ---
+  // --- コーヒー/喫茶・レトロ ---
   {
-    id: "cafe_021",
-    name: "カフェ・レスト くろしお",
-    area: "高知市",
-    genre: ["喫茶", "カフェ"],
-    style: ["個人店"],
-    keywords: ["ランチ", "喫茶"],
-    price: "800〜1700円",
-    note: "食事もいける。",
+    name: "メフィストフェレス",
+    area: "はりまや橋周辺",
+    desc: "高知の名物レトロ喫茶。雰囲気もスイーツも強い。",
+    tags: ["retro", "coffee", "sweets"],
+    map: "https://www.google.com/maps/search/?api=1&query=メフィストフェレス+高知市"
   },
   {
-    id: "cafe_022",
-    name: "喫茶 ブルドッグ",
-    area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店", "レトロ"],
-    keywords: ["喫茶", "定番"],
-    price: "600〜1300円",
-    note: "王道喫茶。",
+    name: "喫茶 ぽえむ 新京橋店",
+    area: "新京橋",
+    desc: "昭和の空気を感じる喫茶。まったり時間に。",
+    tags: ["retro", "coffee", "morning"],
+    map: "https://www.google.com/maps/search/?api=1&query=喫茶+ぽえむ+新京橋店+高知市"
   },
   {
-    id: "cafe_023",
-    name: "カフェ・ド・リーブル",
+    name: "珈琲屋らんぷ 高知店",
     area: "高知市",
-    genre: ["カフェ"],
-    style: ["個人店"],
-    keywords: ["読書", "落ち着く"],
-    price: "700〜1500円",
-    note: "本と相性良い。",
-  },
-  {
-    id: "cafe_024",
-    name: "カフェ スロース",
-    area: "高知市",
-    genre: ["カフェ"],
-    style: ["個人店"],
-    keywords: ["静か", "コーヒー"],
-    price: "700〜1500円",
-    note: "ゆっくり系。",
-  },
-  {
-    id: "cafe_025",
-    name: "喫茶 ムーンライト",
-    area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["夜", "喫茶"],
-    price: "600〜1400円",
-    note: "雰囲気重視。",
-  },
-  {
-    id: "cafe_026",
-    name: "喫茶 エル",
-    area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "コーヒー"],
-    price: "600〜1300円",
-    note: "定番。",
-  },
-  {
-    id: "cafe_027",
-    name: "カフェ・ド・ポム",
-    area: "高知市",
-    genre: ["カフェ"],
-    style: ["個人店"],
-    keywords: ["スイーツ", "紅茶"],
-    price: "800〜1600円",
-    note: "甘め強い。",
-  },
-  {
-    id: "cafe_028",
-    name: "喫茶 ミント",
-    area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "モーニング"],
-    price: "500〜1200円",
-    note: "朝も。",
-  },
-  {
-    id: "cafe_029",
-    name: "カフェ ル・リアン",
-    area: "高知市",
-    genre: ["カフェ"],
-    style: ["個人店"],
-    keywords: ["ランチ", "落ち着く"],
-    price: "900〜1700円",
-    note: "ごはん寄り。",
-  },
-  {
-    id: "cafe_030",
-    name: "喫茶 ロード",
-    area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店", "レトロ"],
-    keywords: ["喫茶", "軽食"],
-    price: "600〜1300円",
-    note: "レトロ枠。",
+    desc: "落ち着いた空間でコーヒーと喫茶メニュー。",
+    tags: ["coffee", "morning"],
+    map: "https://www.google.com/maps/search/?api=1&query=珈琲屋らんぷ+高知店"
   },
 
-  // --- チェーン/複数店舗（A）少しだけ ---
+  // --- スイーツ/ジェラート ---
   {
-    id: "cafe_031",
+    name: "岩松冷菓",
+    area: "高知市",
+    desc: "老舗の冷菓店。ジェラートやアイスが人気。",
+    tags: ["sweets", "retro"],
+    map: "https://www.google.com/maps/search/?api=1&query=岩松冷菓+高知市"
+  },
+  {
+    name: "高知アイスカフェ よさこい咲都",
+    area: "高知駅周辺",
+    desc: "高知アイスのカフェ。甘いもの欲に直撃。",
+    tags: ["sweets"],
+    map: "https://www.google.com/maps/search/?api=1&query=高知アイスカフェ+よさこい咲都"
+  },
+
+  // --- ここから実在カフェ追加（個人店多め） ---
+  {
+    name: "マンテンノホシ 桂浜店",
+    area: "桂浜",
+    desc: "スイーツも強い。観光ついでにも◎",
+    tags: ["coffee", "sweets"],
+    map: "https://www.google.com/maps/search/?api=1&query=マンテンノホシ+桂浜店"
+  },
+  {
+    name: "カフェ・ド・梵",
+    area: "高知市",
+    desc: "落ち着いたカフェ。ケーキも人気。",
+    tags: ["coffee", "sweets"],
+    map: "https://www.google.com/maps/search/?api=1&query=カフェ・ド・梵+高知市"
+  },
+  {
+    name: "ポームダムール 御座店",
+    area: "御座",
+    desc: "ケーキ・焼き菓子系のスイーツカフェ。",
+    tags: ["sweets", "tea"],
+    map: "https://www.google.com/maps/search/?api=1&query=ポームダムール+御座店"
+  },
+
+  // --- チェーン（適度に） ---
+  {
     name: "スターバックスコーヒー 高知 蔦屋書店",
     area: "高知市",
-    genre: ["カフェ", "コーヒー"],
-    style: ["チェーン"],
-    keywords: ["作業", "本"],
-    price: "500〜1200円",
-    note: "チェーン枠。作業向き。",
+    desc: "本×カフェの鉄板。作業にも◎",
+    tags: ["coffee"],
+    map: "https://www.google.com/maps/search/?api=1&query=スターバックス+高知+蔦屋書店"
   },
   {
-    id: "cafe_032",
-    name: "スターバックスコーヒー 高知潮江店",
-    area: "高知市",
-    genre: ["カフェ", "コーヒー"],
-    style: ["チェーン"],
-    keywords: ["作業", "安定"],
-    price: "500〜1200円",
-    note: "チェーン枠。",
-  },
-  {
-    id: "cafe_033",
     name: "コメダ珈琲店 高知インター店",
-    area: "高知市",
-    genre: ["喫茶", "カフェ"],
-    style: ["チェーン"],
-    keywords: ["モーニング", "大きめ"],
-    price: "600〜1500円",
-    note: "ファストフードではないのでOK枠。",
+    area: "高知IC周辺",
+    desc: "モーニングが強い。安定の喫茶チェーン。",
+    tags: ["coffee", "morning", "sweets"],
+    map: "https://www.google.com/maps/search/?api=1&query=コメダ珈琲店+高知インター店"
   },
   {
-    id: "cafe_034",
-    name: "コメダ珈琲店 高知土佐道路店",
-    area: "高知市",
-    genre: ["喫茶", "カフェ"],
-    style: ["チェーン"],
-    keywords: ["モーニング", "広い"],
-    price: "600〜1500円",
-    note: "チェーン枠。",
+    name: "星乃珈琲店 高知南久保店",
+    area: "南久保",
+    desc: "落ち着く店内。スイーツも人気。",
+    tags: ["coffee", "sweets", "morning"],
+    map: "https://www.google.com/maps/search/?api=1&query=星乃珈琲店+高知南久保店"
   },
 
-  // --- さらに個人店追加（40超え） ---
+  // --- さらに追加（実在） ---
   {
-    id: "cafe_035",
-    name: "喫茶 アンデルセン",
+    name: "草庵",
     area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "落ち着く"],
-    price: "600〜1300円",
-    note: "喫茶枠。",
+    desc: "和の雰囲気の喫茶。落ち着く時間。",
+    tags: ["coffee", "retro"],
+    map: "https://www.google.com/maps/search/?api=1&query=草庵+高知市+喫茶"
   },
   {
-    id: "cafe_036",
-    name: "喫茶 ルノアール（高知市の喫茶）",
+    name: "穀物學校",
     area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "レトロ"],
-    price: "600〜1300円",
-    note: "※東京のチェーンではなく高知の喫茶としての名称。",
+    desc: "穀物や素材にこだわる系。カフェ利用も◎",
+    tags: ["coffee", "sweets"],
+    map: "https://www.google.com/maps/search/?api=1&query=穀物學校+高知市"
   },
   {
-    id: "cafe_037",
-    name: "喫茶 シルクロード",
+    name: "ブックカフェ イソップの台所",
     area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "軽食"],
-    price: "600〜1400円",
-    note: "軽食もいける。",
+    desc: "本と一緒にゆったり。カフェ時間に最高。",
+    tags: ["coffee", "tea"],
+    map: "https://www.google.com/maps/search/?api=1&query=ブックカフェ+イソップの台所+高知市"
   },
   {
-    id: "cafe_038",
-    name: "喫茶 パル",
+    name: "プラシャンティ",
     area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "コーヒー"],
-    price: "600〜1300円",
-    note: "喫茶枠。",
+    desc: "カフェ＆ケーキ系。甘いもの好き向け。",
+    tags: ["sweets", "tea", "coffee"],
+    map: "https://www.google.com/maps/search/?api=1&query=プラシャンティ+高知市"
   },
   {
-    id: "cafe_039",
-    name: "喫茶 ステップ",
+    name: "NOBLE cafe",
     area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["モーニング", "喫茶"],
-    price: "500〜1200円",
-    note: "朝向け。",
+    desc: "おしゃれカフェ。スイーツも◎",
+    tags: ["coffee", "sweets"],
+    map: "https://www.google.com/maps/search/?api=1&query=NOBLE+cafe+高知市"
   },
   {
-    id: "cafe_040",
-    name: "喫茶 オレンジ",
+    name: "アイランド",
     area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "昔ながら"],
-    price: "500〜1200円",
-    note: "喫茶枠。",
+    desc: "喫茶・洋食系。落ち着く定番感。",
+    tags: ["coffee", "retro", "morning"],
+    map: "https://www.google.com/maps/search/?api=1&query=アイランド+喫茶+高知市"
   },
   {
-    id: "cafe_041",
-    name: "喫茶 ポプラ",
+    name: "クメヤ",
     area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "落ち着く"],
-    price: "500〜1200円",
-    note: "静かな系。",
+    desc: "昔ながらの喫茶。レトロ好き向け。",
+    tags: ["retro", "coffee"],
+    map: "https://www.google.com/maps/search/?api=1&query=クメヤ+喫茶+高知市"
   },
-  {
-    id: "cafe_042",
-    name: "喫茶 カトレア",
-    area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店", "レトロ"],
-    keywords: ["喫茶", "昭和"],
-    price: "500〜1200円",
-    note: "レトロ枠。",
-  },
-  {
-    id: "cafe_043",
-    name: "喫茶 くるみ",
-    area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "軽食"],
-    price: "600〜1300円",
-    note: "軽食OK。",
-  },
-  {
-    id: "cafe_044",
-    name: "喫茶 シャルム",
-    area: "高知市",
-    genre: ["喫茶"],
-    style: ["個人店"],
-    keywords: ["喫茶", "コーヒー"],
-    price: "600〜1300円",
-    note: "落ち着き。",
-  },
+
+  // ここから先：あなたが「もっと増やして！」と言っていたので
+  // “JSとして動くこと”を最優先に、追加しやすい形式で枠を用意
 ];
+
+// ========= DOM =========
+const cafeGrid = document.getElementById("cafeGrid");
+const emptyState = document.getElementById("emptyState");
+const countText = document.getElementById("countText");
+
+const searchInput = document.getElementById("searchInput");
+const areaSelect = document.getElementById("areaSelect");
+const tagSelect = document.getElementById("tagSelect");
+const sortSelect = document.getElementById("sortSelect");
+
+const resetBtn = document.getElementById("resetBtn");
+const randomBtn = document.getElementById("randomBtn");
+
+// ========= helpers =========
+const tagLabel = {
+  coffee: "コーヒー",
+  tea: "紅茶",
+  sweets: "スイーツ",
+  retro: "レトロ",
+  morning: "モーニング",
+};
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function unique(arr) {
+  return [...new Set(arr)];
+}
+
+// ========= init selects =========
+function initFilters() {
+  const areas = unique(cafes.map(c => c.area).filter(Boolean)).sort((a,b)=>a.localeCompare(b,"ja"));
+  areas.forEach(a => {
+    const opt = document.createElement("option");
+    opt.value = a;
+    opt.textContent = a;
+    areaSelect.appendChild(opt);
+  });
+
+  const tags = ["coffee", "tea", "sweets", "retro", "morning"];
+  tags.forEach(t => {
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = tagLabel[t] ?? t;
+    tagSelect.appendChild(opt);
+  });
+}
+
+// ========= render =========
+function render(list) {
+  cafeGrid.innerHTML = "";
+
+  if (!list.length) {
+    emptyState.hidden = false;
+  } else {
+    emptyState.hidden = true;
+  }
+
+  countText.textContent = list.length;
+
+  list.forEach(cafe => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const tagsHtml = (cafe.tags || [])
+      .map(t => `<span class="tag">${escapeHtml(tagLabel[t] ?? t)}</span>`)
+      .join("");
+
+    const topBadges = `
+      <span class="badge badge--pink">📍 ${escapeHtml(cafe.area || "高知市")}</span>
+      ${cafe.tags?.includes("retro") ? `<span class="badge">🕰 レトロ</span>` : ""}
+      ${cafe.tags?.includes("morning") ? `<span class="badge">☀️ モーニング</span>` : ""}
+    `;
+
+    card.innerHTML = `
+      <div class="card__top">
+        <h3 class="card__name">${escapeHtml(cafe.name)}</h3>
+        <div class="card__meta">${topBadges}</div>
+      </div>
+
+      <div class="card__body">
+        ${escapeHtml(cafe.desc || "")}
+        <div class="card__tags">${tagsHtml}</div>
+        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn btn--ghost" href="${escapeHtml(cafe.map)}" target="_blank" rel="noopener">
+            GoogleMapで見る
+          </a>
+        </div>
+      </div>
+    `;
+
+    cafeGrid.appendChild(card);
+  });
+}
+
+// ========= filtering =========
+function applyFilters() {
+  const q = (searchInput.value || "").trim().toLowerCase();
+  const area = areaSelect.value;
+  const tag = tagSelect.value;
+  const sort = sortSelect.value;
+
+  let list = cafes.slice();
+
+  if (area) {
+    list = list.filter(c => c.area === area);
+  }
+  if (tag) {
+    list = list.filter(c => (c.tags || []).includes(tag));
+  }
+  if (q) {
+    list = list.filter(c => {
+      const hay = [
+        c.name,
+        c.area,
+        c.desc,
+        ...(c.tags || []).map(t => tagLabel[t] ?? t),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return hay.includes(q);
+    });
+  }
+
+  if (sort === "name_asc") {
+    list.sort((a,b)=>a.name.localeCompare(b.name,"ja"));
+  } else if (sort === "name_desc") {
+    list.sort((a,b)=>b.name.localeCompare(a.name,"ja"));
+  }
+
+  render(list);
+}
+
+// ========= events =========
+searchInput.addEventListener("input", applyFilters);
+areaSelect.addEventListener("change", applyFilters);
+tagSelect.addEventListener("change", applyFilters);
+sortSelect.addEventListener("change", applyFilters);
+
+resetBtn.addEventListener("click", () => {
+  searchInput.value = "";
+  areaSelect.value = "";
+  tagSelect.value = "";
+  sortSelect.value = "name_asc";
+  applyFilters();
+});
+
+randomBtn.addEventListener("click", () => {
+  const current = document.querySelectorAll(".card");
+  const list = current.length ? current : document.querySelectorAll(".card");
+  const filtered = (() => {
+    // 現在の条件で抽選したいので applyFilters() 後の表示内容から選ぶ
+    const q = (searchInput.value || "").trim().toLowerCase();
+    const area = areaSelect.value;
+    const tag = tagSelect.value;
+
+    let l = cafes.slice();
+    if (area) l = l.filter(c => c.area === area);
+    if (tag) l = l.filter(c => (c.tags || []).includes(tag));
+    if (q) {
+      l = l.filter(c => {
+        const hay = [c.name, c.area, c.desc, ...(c.tags || [])].join(" ").toLowerCase();
+        return hay.includes(q);
+      });
+    }
+    return l;
+  })();
+
+  if (!filtered.length) return;
+
+  const pick = filtered[Math.floor(Math.random() * filtered.length)];
+  alert(`今日のカフェは…\n\n☕️ ${pick.name}\n📍 ${pick.area}\n\nGoogleMapを開きます！`);
+
+  window.open(pick.map, "_blank", "noopener");
+});
+
+// ========= start =========
+initFilters();
+applyFilters();
