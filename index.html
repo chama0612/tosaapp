@@ -3,55 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kochi Cafe Map - タグで探す</title>
+  <title>Kochi Cafe Map</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <header class="header">
-    <div class="header__inner">
-      <p class="header__sub">高知市内のカフェを</p>
-      <h1 class="header__title">タグでさがす ☕️</h1>
-      <p class="header__desc">
-        気分に合わせてタグを選ぶだけ。<br />
-        高知で気ままなカフェ巡りをしよう。
-      </p>
+<header class="header">
+  <div class="header__inner">
+    <p class="header__sub">高知市のカフェを</p>
+    <h1 class="header__title">タグで探す ☕</h1>
+    <p class="header__desc">
+      気分に合わせてタグを選ぶだけ。<br>
+      コーヒー多めで並び替え表示されます。
+    </p>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- タグエリア -->
+  <section class="tags">
+    <div class="tags__top">
+      <h2 class="section-title">タグで絞り込み</h2>
+      <button id="resetBtn" class="btn btn--ghost">
+        リセット
+      </button>
     </div>
-  </header>
 
-  <main class="container">
+    <div id="tagList" class="tag-list"></div>
 
-    <!-- タグ -->
-    <section class="tags">
-      <div class="tags__top">
-        <h2 class="section-title">絞り込みタグ</h2>
-        <button id="resetBtn" class="btn btn--ghost">リセット</button>
-      </div>
+    <div class="tags__status">
+      <span id="activeTags">選択中：なし</span>
+      <span>
+        表示件数：<strong id="countText">0</strong>
+      </span>
+    </div>
+  </section>
 
-      <div id="tagList" class="tag-list">
-        <!-- JSで生成 -->
-      </div>
+  <!-- カフェ一覧 -->
+  <section class="cards">
+    <h2 class="section-title">カフェ一覧</h2>
 
-      <div class="tags__status">
-        <span id="activeTags" class="active-tags">選択中：なし</span>
-        <span id="resultCount" class="result-count"></span>
-      </div>
-    </section>
+    <!-- カフェカード生成場所 -->
+    <div id="cafeGrid" class="grid"></div>
 
-    <!-- カード一覧 -->
-    <section class="cards">
-      <h2 class="section-title">お店一覧</h2>
-      <div id="shopGrid" class="grid">
-        <!-- JSで生成 -->
-      </div>
-    </section>
+    <!-- 検索結果なし表示 -->
+    <p id="emptyState" hidden>
+      該当するカフェがありません ☕
+    </p>
 
-  </main>
+  </section>
 
-  <footer class="footer">
-    <p>※掲載情報は変更される場合があります。訪問前に公式情報もご確認ください。</p>
-  </footer>
+</main>
 
-  <script src="script.js"></script>
+<footer class="footer">
+  <p>
+    ※掲載情報は変更される場合があります。<br>
+    訪問前に公式情報も確認してください。
+  </p>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
